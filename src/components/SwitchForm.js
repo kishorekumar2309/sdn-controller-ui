@@ -5,6 +5,7 @@ import Select from 'react-select';
 import moment from 'moment';
 import Datetime from 'react-datetime';
 import 'react-datetime/css/react-datetime.css';
+import axios from 'axios';
 
 const options = [
   {value: 'chocolate', label: 'Chocolate'},
@@ -18,7 +19,8 @@ class SwitchForm extends React.Component {
     this.state = {
       selectedOption: null,
       startDate: moment(),
-      date: new Date()
+      date: new Date(),
+      response: null
     };
   }
 
@@ -26,6 +28,15 @@ class SwitchForm extends React.Component {
     this.setState({selectedOption});
     console.log(`Option selected:`, selectedOption);
   };
+
+  getData = () => {
+    axios.get(`http://localhost:8080/company-info`)
+      .then(res => {
+        let response = res.data;
+        console.log(response);
+        this.setState({ response: response[0] });
+      })
+  }
 
   /*handleDateChange = (date) => {
     this.setState({
@@ -40,6 +51,7 @@ class SwitchForm extends React.Component {
     return (
       <div>
         <Jumbotron>
+          {this.state.response && <div>{this.state.response.company_name}</div>}
           <h2>Edit existing links</h2>
           <Form>
             <Row form>
@@ -103,7 +115,7 @@ class SwitchForm extends React.Component {
             <Row form>
               <Col>
                 <FormGroup>
-                  <Button>Sign in</Button>
+                  <Button onClick={this.getData}>Sign in</Button>
                 </FormGroup>
               </Col>
             </Row>

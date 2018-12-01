@@ -4,10 +4,6 @@ import '../App.css';
 import SwitchForm from './SwitchForm';
 
 class Switch extends React.Component {
-    constructor(props) {
-      super(props);
-    }
-  
     render() {
       return (
         <div className="container">
